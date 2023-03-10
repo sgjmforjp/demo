@@ -1,67 +1,60 @@
 # yaml 配置实例
 version: '3.9'
+
+networks:
+  default:
+    external: true
+    name: redis_server_default
+
 services: 
   redis_sentinel_1:
     image: redis:latest
     container_name: redis_sentinel_1
     restart: always
-    # 为了规避Docker中端口映射可能带来的问题
-    # 这里选择使用host网络
-    # network_mode: host
     privileged: true
     environment:
       TZ: "Asia/Shanghai"
     ports: 
       - "27001:26379"
     env_file: 
-      - ../redis.env
-    command: /bin/bash -c "redis-sentinel /opt/redis/redis.conf"
+      - ./config/redis.env
+    command: /bin/bash -c "redis-sentinel /opt/redis/sentinel/config/redis-sentinel.conf"
     volumes:
-      - ./data/sentinel_1:/opt/redis/data
-      - ./data/sentinel_1/logs:/opt/redis/logs
-      - ./redis-sentinel.conf:/opt/redis/redis.conf
+      - ./sentinel_1/data:/opt/redis/data
+      - ./sentinel_1/logs:/opt/redis/logs
+      - ./config/sentinel_1:/opt/redis/sentinel/config
 
   redis_sentinel_2:
     image: redis:latest
     container_name: redis_sentinel_2
     restart: always
-    # 为了规避Docker中端口映射可能带来的问题
-    # 这里选择使用host网络
-    # network_mode: host
     privileged: true
     environment:
       TZ: "Asia/Shanghai"
     ports: 
       - "27002:26379"
     env_file: 
-      - ../redis.env
-    command: /bin/bash -c "redis-sentinel /opt/redis/redis.conf"
+      - ./config/redis.env
+    command: /bin/bash -c "redis-sentinel /opt/redis/sentinel/config/redis-sentinel.conf"
     volumes:
-      - ./data/sentinel_2:/opt/redis/data
-      - ./data/sentinel_2/logs:/opt/redis/logs
-      - ./redis-sentinel.conf:/opt/redis/redis.conf
+      - ./sentinel_2/data:/opt/redis/data
+      - ./sentinel_2/logs:/opt/redis/logs
+      - ./config/sentinel_2:/opt/redis/sentinel/config
 
   redis_sentinel_3:
     image: redis:latest
     container_name: redis_sentinel_3
     restart: always
-    # 为了规避Docker中端口映射可能带来的问题
-    # 这里选择使用host网络
-    # network_mode: host
     privileged: true
     environment:
       TZ: "Asia/Shanghai"
     ports: 
       - "27003:26379"
     env_file: 
-      - ../redis.env
-    command: /bin/bash -c "redis-sentinel /opt/redis/redis.conf"
+      - ./config/redis.env
+    command: /bin/bash -c "redis-sentinel /opt/redis/sentinel/config/redis-sentinel.conf"
     volumes:
-      - ./data/sentinel_3:/opt/redis/data
-      - ./data/sentinel_3/logs:/opt/redis/logs
-      - ./redis-sentinel.conf:/opt/redis/redis.conf
+      - ./sentinel_3/data:/opt/redis/data
+      - ./sentinel_3/logs:/opt/redis/logs
+      - ./config/sentinel_3:/opt/redis/sentinel/config
 
-networks:
-  default:
-    external: true
-    name: redis_server_default

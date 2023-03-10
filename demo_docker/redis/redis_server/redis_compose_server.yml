@@ -1,65 +1,128 @@
 # yaml 配置实例
 version: '3.9'
+
 services: 
-  redis_master:
+  redis_server_1:
     image: redis:latest
-    container_name: redis_master
+    container_name: redis_server_1
     restart: always
-    # 为了规避Docker中端口映射可能带来的问题
-    # 这里选择使用host网络
-    # network_mode: host
     privileged: true
     environment:
       TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
     ports: 
       - "16000:6379"
     env_file: 
-      - ../redis.env
-    command: /bin/bash -c "redis-server /opt/redis/redis.conf"
-    # command: /bin/bash -c "redis-server --requirepass REDIS_PASSWORD --masterauth REDIS_PASSWORD"
+      - ./config/redis.env
+    command: /bin/bash -c "redis-server /opt/redis/server/config/redis-server.conf --requirepass 1234 --masterauth 1234"
     volumes:
-      - ./data/master:/opt/redis/data
-      - ./data/master/logs:/opt/redis/logs
-      - ./redis-master.conf:/opt/redis/redis.conf
+      - ./server_1/data:/opt/redis/data
+      - ./server_1/logs:/opt/redis/logs
+      - ./config/server_1:/opt/redis/server/config
 
-  redis_slave_1:
+  redis_server_2:
     image: redis:latest
-    container_name: redis_slave_1
+    container_name: redis_server_2
     restart: always
-    # 为了规避Docker中端口映射可能带来的问题
-    # 这里选择使用host网络
-    # network_mode: host
     privileged: true
     environment:
       TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
     ports: 
       - "16001:6379"
     env_file: 
-      - ../redis.env
-    command: /bin/bash -c "redis-server /opt/redis/redis.conf"
-    # command: /bin/bash -c "redis-server --slaveof redis_master 6379 --requirepass REDIS_PASSWORD --masterauth REDIS_PASSWORD"
+      - ./config/redis.env
+    command: /bin/bash -c "redis-server /opt/redis/server/config/redis-server.conf --slaveof redis_server_1 6379 --requirepass 1234 --masterauth 1234"
     volumes:
-      - ./data/slave_1:/opt/redis/data
-      - ./data/slave_1/logs:/opt/redis/logs
-      - ./redis-slave.conf:/opt/redis/redis.conf
+      - ./server_2/data:/opt/redis/data
+      - ./server_2/logs:/opt/redis/logs
+      - ./config/server_2:/opt/redis/server/config
+    depends_on:
+      - redis_server_1
 
-  redis_slave_2:
+  redis_server_3:
     image: redis:latest
-    container_name: redis_slave_2
+    container_name: redis_server_3
     restart: always
-    # 为了规避Docker中端口映射可能带来的问题
-    # 这里选择使用host网络
-    # network_mode: host
     privileged: true
     environment:
       TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
     ports: 
       - "16002:6379"
     env_file: 
-      - ../redis.env
-    command: /bin/bash -c "redis-server /opt/redis/redis.conf"
-    # command: /bin/bash -c "redis-server --slaveof redis_master 6379 --requirepass REDIS_PASSWORD --masterauth REDIS_PASSWORD"
+      - ./config/redis.env
+    command: /bin/bash -c "redis-server /opt/redis/server/config/redis-server.conf --slaveof redis_server_1 6379 --requirepass 1234 --masterauth 1234"
     volumes:
-      - ./data/slave_2:/opt/redis/data
-      - ./data/slave_2/logs:/opt/redis/logs
-      - ./redis-slave.conf:/opt/redis/redis.conf
+      - ./server_3/data:/opt/redis/data
+      - ./server_3/logs:/opt/redis/logs
+      - ./config/server_3:/opt/redis/server/config
+    depends_on:
+      - redis_server_1
+
+  redis_sentinel_1:
+    image: redis:latest
+    container_name: redis_sentinel_1
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "27001:26379"
+    env_file: 
+      - ./config/redis.env
+    command: /bin/bash -c "redis-sentinel /opt/redis/sentinel/config/redis-sentinel.conf"
+    volumes:
+      - ./sentinel_1/data:/opt/redis/data
+      - ./sentinel_1/logs:/opt/redis/logs
+      - ./config/sentinel_1:/opt/redis/sentinel/config
+    depends_on:
+      - redis_server_1
+      - redis_server_2
+      - redis_server_3
+
+  redis_sentinel_2:
+    image: redis:latest
+    container_name: redis_sentinel_2
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "27002:26379"
+    env_file: 
+      - ./config/redis.env
+    command: /bin/bash -c "redis-sentinel /opt/redis/sentinel/config/redis-sentinel.conf"
+    volumes:
+      - ./sentinel_2/data:/opt/redis/data
+      - ./sentinel_2/logs:/opt/redis/logs
+      - ./config/sentinel_2:/opt/redis/sentinel/config
+    depends_on:
+      - redis_server_1
+      - redis_server_2
+      - redis_server_3
+
+  redis_sentinel_3:
+    image: redis:latest
+    container_name: redis_sentinel_3
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "27003:26379"
+    env_file: 
+      - ./config/redis.env
+    command: /bin/bash -c "redis-sentinel /opt/redis/sentinel/config/redis-sentinel.conf"
+    volumes:
+      - ./sentinel_3/data:/opt/redis/data
+      - ./sentinel_3/logs:/opt/redis/logs
+      - ./config/sentinel_3:/opt/redis/sentinel/config
+    depends_on:
+      - redis_server_1
+      - redis_server_2
+      - redis_server_3
+
