@@ -1,0 +1,13 @@
+# yaml 配置实例
+version: '3.9'
+services: 
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      TZ: "Asia/Shanghai"
+    ports: 
+      - "3306:3306"
+      - "33060:33060"

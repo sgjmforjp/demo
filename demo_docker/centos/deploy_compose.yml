@@ -1,0 +1,10 @@
+# yaml 配置实例
+version: '3.9'
+services: 
+  centos_dev:
+    image: centos_dev:latest
+    container_name: centos_dev
+    privileged: true
+    ports: 
+      - "22:22"
+  

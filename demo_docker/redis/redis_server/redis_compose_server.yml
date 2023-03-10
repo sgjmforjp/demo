@@ -1,0 +1,65 @@
+# yaml 配置实例
+version: '3.9'
+services: 
+  redis_master:
+    image: redis:latest
+    container_name: redis_master
+    restart: always
+    # 为了规避Docker中端口映射可能带来的问题
+    # 这里选择使用host网络
+    # network_mode: host
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+    ports: 
+      - "16000:6379"
+    env_file: 
+      - ../redis.env
+    command: /bin/bash -c "redis-server /opt/redis/redis.conf"
+    # command: /bin/bash -c "redis-server --requirepass REDIS_PASSWORD --masterauth REDIS_PASSWORD"
+    volumes:
+      - ./data/master:/opt/redis/data
+      - ./data/master/logs:/opt/redis/logs
+      - ./redis-master.conf:/opt/redis/redis.conf
+
+  redis_slave_1:
+    image: redis:latest
+    container_name: redis_slave_1
+    restart: always
+    # 为了规避Docker中端口映射可能带来的问题
+    # 这里选择使用host网络
+    # network_mode: host
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+    ports: 
+      - "16001:6379"
+    env_file: 
+      - ../redis.env
+    command: /bin/bash -c "redis-server /opt/redis/redis.conf"
+    # command: /bin/bash -c "redis-server --slaveof redis_master 6379 --requirepass REDIS_PASSWORD --masterauth REDIS_PASSWORD"
+    volumes:
+      - ./data/slave_1:/opt/redis/data
+      - ./data/slave_1/logs:/opt/redis/logs
+      - ./redis-slave.conf:/opt/redis/redis.conf
+
+  redis_slave_2:
+    image: redis:latest
+    container_name: redis_slave_2
+    restart: always
+    # 为了规避Docker中端口映射可能带来的问题
+    # 这里选择使用host网络
+    # network_mode: host
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+    ports: 
+      - "16002:6379"
+    env_file: 
+      - ../redis.env
+    command: /bin/bash -c "redis-server /opt/redis/redis.conf"
+    # command: /bin/bash -c "redis-server --slaveof redis_master 6379 --requirepass REDIS_PASSWORD --masterauth REDIS_PASSWORD"
+    volumes:
+      - ./data/slave_2:/opt/redis/data
+      - ./data/slave_2/logs:/opt/redis/logs
+      - ./redis-slave.conf:/opt/redis/redis.conf
