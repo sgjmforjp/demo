@@ -11,9 +11,9 @@ services:
     ports: 
       - "6379:6379"
     env_file: 
-      - ../redis.env
-    command: /bin/bash -c "redis-server --requirepass ${REDIS_PASSWORD} /opt/redis/redis-server.conf"
+      - ../config/redis.env
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --requirepass 1234"
     volumes:
-      - ./deploy/data/:/opt/redis/deploy/data
-      - ./deploy/logs/:/opt/redis/deploy/logs
-      - ./deploy/config:/opt/redis/deploy/config/redis-server.conf
+      - ./deploy/data:/opt/redis/deploy/data
+      - ./deploy/logs:/opt/redis/deploy/logs
+      - ./deploy/config:/opt/redis/deploy/config
