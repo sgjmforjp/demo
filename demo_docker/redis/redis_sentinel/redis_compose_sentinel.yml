@@ -14,15 +14,16 @@ services:
     privileged: true
     environment:
       TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
     ports: 
       - "27001:26379"
     env_file: 
-      - ./config/redis.env
-    command: /bin/bash -c "redis-sentinel /opt/redis/sentinel/config/redis-sentinel.conf"
+      - ../config/redis.env
+    command: /bin/bash -c "redis-sentinel /opt/redis/deploy/config/redis-sentinel.conf"
     volumes:
-      - ./sentinel_1/data:/opt/redis/data
-      - ./sentinel_1/logs:/opt/redis/logs
-      - ./config/sentinel_1:/opt/redis/sentinel/config
+      - ./deploy/sentinel_1/data:/opt/redis/deploy/data
+      - ./deploy/sentinel_1/logs:/opt/redis/deploy/logs
+      - ./deploy/sentinel_1/config:/opt/redis/deploy/config
 
   redis_sentinel_2:
     image: redis:latest
@@ -31,15 +32,16 @@ services:
     privileged: true
     environment:
       TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
     ports: 
       - "27002:26379"
     env_file: 
-      - ./config/redis.env
-    command: /bin/bash -c "redis-sentinel /opt/redis/sentinel/config/redis-sentinel.conf"
+      - ../config/redis.env
+    command: /bin/bash -c "redis-sentinel /opt/redis/deploy/config/redis-sentinel.conf"
     volumes:
-      - ./sentinel_2/data:/opt/redis/data
-      - ./sentinel_2/logs:/opt/redis/logs
-      - ./config/sentinel_2:/opt/redis/sentinel/config
+      - ./deploy/sentinel_2/data:/opt/redis/deploy/data
+      - ./deploy/sentinel_2/logs:/opt/redis/deploy/logs
+      - ./deploy/sentinel_2/config:/opt/redis/deploy/config
 
   redis_sentinel_3:
     image: redis:latest
@@ -48,13 +50,14 @@ services:
     privileged: true
     environment:
       TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
     ports: 
       - "27003:26379"
     env_file: 
-      - ./config/redis.env
-    command: /bin/bash -c "redis-sentinel /opt/redis/sentinel/config/redis-sentinel.conf"
+      - ../config/redis.env
+    command: /bin/bash -c "redis-sentinel /opt/redis/deploy/config/redis-sentinel.conf"
     volumes:
-      - ./sentinel_3/data:/opt/redis/data
-      - ./sentinel_3/logs:/opt/redis/logs
-      - ./config/sentinel_3:/opt/redis/sentinel/config
+      - ./deploy/sentinel_3/data:/opt/redis/deploy/data
+      - ./deploy/sentinel_3/logs:/opt/redis/deploy/logs
+      - ./deploy/sentinel_3/config:/opt/redis/deploy/config
 

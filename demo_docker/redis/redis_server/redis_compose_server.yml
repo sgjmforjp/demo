@@ -33,7 +33,7 @@ services:
       - "16001:6379"
     env_file: 
       - ../config/redis.env
-    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --slaveof redis_server_1 6379 --requirepass 1234 --masterauth 1234"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --replicaof redis_server_1 6379 --requirepass 1234 --masterauth 1234"
     volumes:
       - ./deploy/server_2/data:/opt/redis/deploy/data
       - ./deploy/server_2/logs:/opt/redis/deploy/logs
@@ -53,7 +53,7 @@ services:
       - "16002:6379"
     env_file: 
       - ../config/redis.env
-    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --slaveof redis_server_1 6379 --requirepass 1234 --masterauth 1234"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --replicaof redis_server_1 6379 --requirepass 1234 --masterauth 1234"
     volumes:
       - ./deploy/server_3/data:/opt/redis/deploy/data
       - ./deploy/server_3/logs:/opt/redis/deploy/logs

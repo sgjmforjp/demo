@@ -1,0 +1,62 @@
+# yaml 配置实例
+version: '3.9'
+
+services: 
+
+  redis_server_1:
+    image: redis:latest
+    container_name: redis_server_1
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "16000:6379"
+    env_file: 
+      - ../config/redis.env
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/server_1/data:/opt/redis/deploy/data
+      - ./deploy/server_1/logs:/opt/redis/deploy/logs
+      - ./deploy/server_1/config:/opt/redis/deploy/config
+
+  redis_server_2:
+    image: redis:latest
+    container_name: redis_server_2
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "16001:6379"
+    env_file: 
+      - ../config/redis.env
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --replicaof redis_server_1 6379 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/server_2/data:/opt/redis/deploy/data
+      - ./deploy/server_2/logs:/opt/redis/deploy/logs
+      - ./deploy/server_2/config:/opt/redis/deploy/config
+    depends_on:
+      - redis_server_1
+
+  redis_server_3:
+    image: redis:latest
+    container_name: redis_server_3
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "16002:6379"
+    env_file: 
+      - ../config/redis.env
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --replicaof redis_server_1 6379 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/server_3/data:/opt/redis/deploy/data
+      - ./deploy/server_3/logs:/opt/redis/deploy/logs
+      - ./deploy/server_3/config:/opt/redis/deploy/config
+    depends_on:
+      - redis_server_1
