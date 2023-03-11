@@ -1,0 +1,19 @@
+# yaml 配置实例
+version: '3.9'
+services: 
+  redis-singleton:
+    image: redis:latest
+    container_name: redis-singleton
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+    ports: 
+      - "6379:6379"
+    env_file: 
+      - ../redis.env
+    command: /bin/bash -c "redis-server --requirepass ${REDIS_PASSWORD} /opt/redis/redis-server.conf"
+    volumes:
+      - ./deploy/data/:/opt/redis/deploy/data
+      - ./deploy/logs/:/opt/redis/deploy/logs
+      - ./deploy/config:/opt/redis/deploy/config/redis-server.conf
