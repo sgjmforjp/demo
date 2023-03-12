@@ -1,0 +1,191 @@
+# yaml 配置实例
+version: '3.9'
+
+services: 
+
+  redis_node_1:
+    image: redis:latest
+    container_name: redis_node_1
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "9911:9911"
+      - "19911:19911"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-cluster.conf --port 9911 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/node_1/data:/opt/redis/deploy/data
+      - ./deploy/node_1/logs:/opt/redis/deploy/logs
+      - ./deploy/node_1/config:/opt/redis/deploy/config
+    # networks: 
+    #   redis-cluster-network: 
+    #     ipv4_address: 172.100.0.11
+
+  redis_node_2:
+    image: redis:latest
+    container_name: redis_node_2
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "9912:9912"
+      - "19912:19912"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-cluster.conf --port 9912 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/node_2/data:/opt/redis/deploy/data
+      - ./deploy/node_2/logs:/opt/redis/deploy/logs
+      - ./deploy/node_2/config:/opt/redis/deploy/config
+    # networks: 
+    #   redis-cluster-network: 
+    #     ipv4_address: 172.100.0.12
+
+  redis_node_3:
+    image: redis:latest
+    container_name: redis_node_3
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "9913:9913"
+      - "19913:19913"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-cluster.conf --port 9913 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/node_3/data:/opt/redis/deploy/data
+      - ./deploy/node_3/logs:/opt/redis/deploy/logs
+      - ./deploy/node_3/config:/opt/redis/deploy/config
+    # networks: 
+    #   redis-cluster-network: 
+    #     ipv4_address: 172.100.0.13
+
+  redis_node_4:
+    image: redis:latest
+    container_name: redis_node_4
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "9914:9914"
+      - "19914:19914"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-cluster.conf --port 9914 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/node_4/data:/opt/redis/deploy/data
+      - ./deploy/node_4/logs:/opt/redis/deploy/logs
+      - ./deploy/node_4/config:/opt/redis/deploy/config
+    # networks: 
+    #   redis-cluster-network: 
+    #     ipv4_address: 172.100.0.14
+
+  redis_node_5:
+    image: redis:latest
+    container_name: redis_node_5
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "9915:9915"
+      - "19915:19915"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-cluster.conf --port 9915 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/node_5/data:/opt/redis/deploy/data
+      - ./deploy/node_5/logs:/opt/redis/deploy/logs
+      - ./deploy/node_5/config:/opt/redis/deploy/config
+    # networks: 
+    #   redis-cluster-network: 
+    #     ipv4_address: 172.100.0.15
+
+  redis_node_6:
+    image: redis:latest
+    container_name: redis_node_6
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "9916:9916"
+      - "19916:19916"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-cluster.conf --port 9916 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/node_6/data:/opt/redis/deploy/data
+      - ./deploy/node_6/logs:/opt/redis/deploy/logs
+      - ./deploy/node_6/config:/opt/redis/deploy/config
+    # networks: 
+    #   redis-cluster-network: 
+    #     ipv4_address: 172.100.0.16
+
+  redis_node_7:
+    image: redis:latest
+    container_name: redis_node_7
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "9917:9917"
+      - "19917:19917"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-cluster.conf --port 9917 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/node_7/data:/opt/redis/deploy/data
+      - ./deploy/node_7/logs:/opt/redis/deploy/logs
+      - ./deploy/node_7/config:/opt/redis/deploy/config
+    # networks: 
+    #   redis-cluster-network: 
+    #     ipv4_address: 172.100.0.17
+
+  redis_node_8:
+    image: redis:latest
+    container_name: redis_node_8
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "9918:9918"
+      - "19918:19918"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-cluster.conf --port 9918 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/node_8/data:/opt/redis/deploy/data
+      - ./deploy/node_8/logs:/opt/redis/deploy/logs
+      - ./deploy/node_8/config:/opt/redis/deploy/config
+    # networks: 
+    #   redis-cluster-network: 
+    #     ipv4_address: 172.100.0.18
+
+  redis_node_9:
+    image: redis:latest
+    container_name: redis_node_9
+    restart: always
+    privileged: true
+    environment:
+      TZ: "Asia/Shanghai"
+      LANG: "en_US.UTF-8"
+    ports: 
+      - "9919:9919"
+      - "19919:19919"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-cluster.conf --port 9919 --requirepass 1234 --masterauth 1234"
+    volumes:
+      - ./deploy/node_9/data:/opt/redis/deploy/data
+      - ./deploy/node_9/logs:/opt/redis/deploy/logs
+      - ./deploy/node_9/config:/opt/redis/deploy/config
+    # networks: 
+    #   redis-cluster-network: 
+    #     ipv4_address: 172.100.0.19
+
+# networks: 
+#   redis-cluster-network: 
+#     ipam: 
+#       driver: default
+#       config: 
+#         - subnet: 172.100.0.0/24
