@@ -18,6 +18,7 @@ RUN set -xe \
     && ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' \
     && ssh-keygen -t dsa -f /etc/ssh/ssh_host_ed25519_key  -N '' \
     && /bin/echo 'root:1234' |chpasswd \
+    && /bin/echo -e "LANG=\"en_US.UTF-8\"" > /etc/default/local \
     && /bin/sed -i 's/.*session.*required.*pam_loginuid.so.*/session optional pam_loginuid.so/g' /etc/pam.d/sshd \
     && /bin/echo -e "LANG=\"en_US.UTF-8\"" > /etc/default/local \
     && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
