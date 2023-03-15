@@ -45,6 +45,24 @@ elseif (UNIX)
 
 endif (WIN32)
 
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+
+if(APPLE)
+
+    set(EXTRA_SRC_DIRS ${VCPKG_INSTALLED_DIR}/x64-osx/include)
+
+    if(CMAKE_BUILD_TYPE MATCHES Debug)
+        set(EXTRA_LIB_DIRS ${VCPKG_INSTALLED_DIR}/x64-osx/debug/lib)
+        set(EXTRA_LIBS spdlogd fmtd uv_a)
+    else()
+        set(EXTRA_LIB_DIRS ${VCPKG_INSTALLED_DIR}/x64-osx/lib)
+        set(EXTRA_LIBS spdlog fmt uv_a)
+    endif()
+
+endif()
+
+
+
 aux_source_directory(src SRC_DIR)
 
 add_executable(demo_cpp ${SRC_DIR})
