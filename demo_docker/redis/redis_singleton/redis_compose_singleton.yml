@@ -10,10 +10,10 @@ services:
       TZ: "Asia/Shanghai"
       LANG: "en_US.UTF-8"
     ports: 
-      - "6379:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
     env_file: 
       - ../config/redis.env
-    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --requirepass 1234"
+    command: /bin/bash -c "redis-server /opt/redis/deploy/config/redis-server.conf --port ${REDIS_PORT} --requirepass ${AUTH_REDIS}"
     volumes:
       - ./deploy/data:/opt/redis/deploy/data
       - ./deploy/logs:/opt/redis/deploy/logs
