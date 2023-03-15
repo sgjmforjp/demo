@@ -3,21 +3,47 @@ project(demo_cpp)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# The CMake toolchain file
-set(CMAKE_TOOLCHAIN_FILE /Users/vulko/code/git/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
-# The directory which contains the installed libraries for each triplet
-set(VCPKG_INSTALLED_DIR /Users/vulko/code/git/vcpkg/installed)
 
 # Automatically copy dependencies into the output directory for executables.
 set(VCPKG_APPLOCAL_DEPS ON)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-set(EXTRA_SRC_DIRS ${VCPKG_INSTALLED_DIR}/x64-osx/include)
-set(EXTRA_LIB_DIRS ${VCPKG_INSTALLED_DIR}/x64-osx/lib)
-set(EXTRA_DLL_DIRS ${VCPKG_INSTALLED_DIR}/x64-osx/bin)
 
-set(EXTRA_LIBS spdlog fmt uv_a)
+## The CMake toolchain file
+#set(CMAKE_TOOLCHAIN_FILE D:/works/vcpkg/scripts/buildsystems/vcpkg.cmake)
+
+if (WIN32)
+
+    set(EXTRA_SRC_DIRS ${VCPKG_INSTALLED_DIR}/x64-windows/include)
+
+    if (CMAKE_BUILD_TYPE MATCHES Debug)
+        set(EXTRA_LIB_DIRS ${VCPKG_INSTALLED_DIR}/x64-windows/debug/lib)
+        set(EXTRA_DLL_DIRS ${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin)
+        set(EXTRA_LIBS spdlogd fmtd uv)
+    else()
+        set(EXTRA_LIB_DIRS ${VCPKG_INSTALLED_DIR}/x64-windows/lib)
+        set(EXTRA_DLL_DIRS ${VCPKG_INSTALLED_DIR}/x64-windows/bin)
+        set(EXTRA_LIBS spdlog fmt uv)
+    endif()
+
+elseif (APPLE)
+
+    set(EXTRA_SRC_DIRS ${VCPKG_INSTALLED_DIR}/x64-osx/include)
+    set(EXTRA_LIB_DIRS ${VCPKG_INSTALLED_DIR}/x64-osx/lib)
+    set(EXTRA_DLL_DIRS ${VCPKG_INSTALLED_DIR}/x64-osx/bin)
+
+    set(EXTRA_LIBS spdlog fmt uv_a)
+
+elseif (UNIX)
+
+    set(EXTRA_SRC_DIRS ${VCPKG_INSTALLED_DIR}/x64-linux/include)
+    set(EXTRA_LIB_DIRS ${VCPKG_INSTALLED_DIR}/x64-linux/lib)
+    set(EXTRA_DLL_DIRS ${VCPKG_INSTALLED_DIR}/x64-linux/bin)
+
+    set(EXTRA_LIBS spdlog fmt uv_a)
+
+endif (WIN32)
 
 aux_source_directory(src SRC_DIR)
 

@@ -1,3 +1,14 @@
 {
-  "port": 6608
+  "server": [
+    {
+      "name": "Hall",
+      "host": "0.0.0.0",
+      "port": 6608,
+      "backlog": 0
+    }
+  ],
+
+  "client": [
+
+  ]
 }

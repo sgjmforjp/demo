@@ -9,6 +9,12 @@
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/async.h"
 
+#ifdef _WIN32
+#include<Windows.h>
+#include <iomanip>
+#include <time.h>
+#endif
+
 void CLogInit::init() {
 
     std::locale::global(std::locale("en_US.UTF-8"));
@@ -24,9 +30,13 @@ void CLogInit::init() {
     debug_logger->set_pattern("[%H:%M:%S %z] %v");
     spdlog::register_logger(debug_logger);
 
-    //info 日志
+    //std out(console)
     auto console = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    console->set_color_mode(spdlog::color_mode::always);
+
+    //info 日志
     auto info = std::make_shared<spdlog::sinks::daily_file_sink_mt>("logs/info.log", 9, 30);
+//    auto info = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("logs/info.log", 1024 * 1024 * 1, 3);
     std::vector<spdlog::sink_ptr> info_list {console, info};
     auto info_logger = std::make_shared<spdlog::async_logger>("info_logger", std::begin(info_list), std::end(info_list), spdlog::thread_pool(), spdlog::async_overflow_policy::block);
     info_logger->set_pattern("[%H:%M:%S %z] %v");
@@ -35,6 +45,7 @@ void CLogInit::init() {
 
     //warn 日志
     auto warn = std::make_shared<spdlog::sinks::daily_file_sink_mt>("logs/warn.log", 9, 30);
+//    auto warn = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("logs/warn.log", 1024 * 1024 * 1, 3);
     std::vector<spdlog::sink_ptr> warn_list {console, warn};
     auto warn_logger = std::make_shared<spdlog::async_logger>("warn_logger", std::begin(warn_list), std::end(warn_list), spdlog::thread_pool(), spdlog::async_overflow_policy::block);
     warn_logger->set_pattern("[%H:%M:%S %z] %v");
@@ -43,6 +54,7 @@ void CLogInit::init() {
 
     //error 日志
     auto error = std::make_shared<spdlog::sinks::daily_file_sink_mt>("logs/error.log", 9, 30);
+//    auto error = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("logs/error.log", 1024 * 1024 * 1, 3);
     std::vector<spdlog::sink_ptr> error_list {console, error};
     auto error_logger = std::make_shared<spdlog::async_logger>("error_logger", std::begin(error_list), std::end(error_list), spdlog::thread_pool(), spdlog::async_overflow_policy::block);
     error_logger->set_pattern("[%H:%M:%S %z] %v");

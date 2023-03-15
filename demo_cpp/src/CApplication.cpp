@@ -5,10 +5,6 @@
 #include "CApplication.h"
 #include "CLogInit.h"
 
-#ifdef _WIN32
-#include<Windows.h>
-#endif
-
 #include <iostream>
 #include <sstream>
 
